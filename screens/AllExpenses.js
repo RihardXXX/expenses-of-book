@@ -1,13 +1,7 @@
-import { View, Text } from "react-native";
+import ExpenseOutput from "../components/ExpenseOutput";
 
 const AllExpenses = () => {
-    return (
-        <View>
-            <Text>
-                AllExpenses
-            </Text>
-        </View>
-    )
+    return <ExpenseOutput periodName={'Total'} />
 };
 
 export default AllExpenses;

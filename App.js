@@ -61,8 +61,12 @@ export default function App() {
             component={MyTabs} 
             options={{
               headerShown: false
-            }} />
-          <Stack.Screen name="ManageExpenses" component={ManageExpenses} /> 
+            }} 
+          />
+          <Stack.Screen 
+            name="ManageExpenses" 
+            component={ManageExpenses} 
+          /> 
         </Stack.Navigator>
       </NavigationContainer>
     </>
