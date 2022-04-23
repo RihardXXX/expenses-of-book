@@ -10,6 +10,8 @@ import AllExpenses from './screens/AllExpenses';
 import RecentExepenses from './screens/RecentExepenses';
 import ManageExpenses from './screens/ManageExpenses';
 
+import IconButton from './components/ui/IconButton';
+
 import colors from './constants/colors';
 
 // console.log(112, colors.primary200);
@@ -19,13 +21,20 @@ const Tab = createBottomTabNavigator();
 
 const MyTabs = () => {
   return (
-    <Tab.Navigator screenOptions={{
+    <Tab.Navigator screenOptions={({navigation}) => ({
       headerStyle: { backgroundColor: colors.primary200 },
       headerTintColor: colors.primary800,
       tabBarStyle: { backgroundColor: colors.primary200 },
       tabBarActiveTintColor: colors.primary800,
-      tabBarInactiveTintColor: colors.error50
-    }}>
+      tabBarInactiveTintColor: colors.error50,
+      headerRight: ({tintColor}) => 
+        <IconButton 
+          name={'add'} 
+          color={tintColor} 
+          size={38} 
+          onPress={() => navigation.navigate('ManageExpenses')} 
+        />
+    })}>
       <Tab.Screen 
         name="AllExpenses" 
         component={AllExpenses} 
@@ -66,6 +75,9 @@ export default function App() {
           <Stack.Screen 
             name="ManageExpenses" 
             component={ManageExpenses} 
+            options={{
+              presentation: 'card'
+            }}
           /> 
         </Stack.Navigator>
       </NavigationContainer>
