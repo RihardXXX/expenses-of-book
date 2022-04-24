@@ -4,12 +4,14 @@ import { getFormattedDate } from "../utils/date";
 import { useNavigation } from "@react-navigation/native";
 
 
-const ExpenseItem = ({description, date, amount}) => {
+const ExpenseItem = ({id, description, date, amount}) => {
 
     const navigation = useNavigation();
 
     const onPressHandler = () => {
-        navigation.navigate('ManageExpenses');
+        navigation.navigate('ManageExpenses', {
+            expenseId: id
+        });
     };
 
     return (
