@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { ExpenseProvider } from './store/expense-context';
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import AllExpenses from './screens/AllExpenses';
@@ -60,27 +62,30 @@ const MyTabs = () => {
 }
 
 export default function App() {
+
   return (
     <>
       <StatusBar style="auto" />
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen 
-            name="MyTabs" 
-            component={MyTabs} 
-            options={{
-              headerShown: false
-            }} 
-          />
-          <Stack.Screen 
-            name="ManageExpenses" 
-            component={ManageExpenses} 
-            options={{
-              presentation: 'card'
-            }}
-          /> 
-        </Stack.Navigator>
-      </NavigationContainer>
+      <ExpenseProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen 
+              name="MyTabs" 
+              component={MyTabs} 
+              options={{
+                headerShown: false
+              }} 
+            />
+            <Stack.Screen 
+              name="ManageExpenses" 
+              component={ManageExpenses} 
+              options={{
+                presentation: 'card'
+              }}
+            /> 
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ExpenseProvider>
     </>
   );
 }

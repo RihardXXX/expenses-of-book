@@ -1,14 +1,17 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import IconButton from "../components/ui/IconButton";
 import colors from "../constants/colors";
 import Button from "../components/ui/Button";
+import { ExpenseContext } from '../store/expense-context';
 
 
 const ManageExpenses = ({route, navigation}) => {
 
     const expenseId = route.params?.expenseId;
     const isEdit = Boolean(expenseId);
+
+    const { addExpense, deleteExpense, updateExpense } = useContext(ExpenseContext);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -19,7 +22,30 @@ const ManageExpenses = ({route, navigation}) => {
     }, [navigation, isEdit])
 
     const cancelHandler = () => navigation.goBack();
-    const addEditHandler = () => console.log('add || edit handler');
+
+    const addEditHandler = () => {
+        if (isEdit) {
+            updateExpense(expenseId, {
+                id: new Date().toISOString(),
+                description: 'Test1',
+                amount: 1111,
+                date: new Date('2022-06-25')
+              })
+        } else {
+            addExpense({
+                id: new Date().toISOString(),
+                description: 'Test',
+                amount: 20.59,
+                date: new Date('2022-06-24')
+              })
+        }
+        navigation.goBack()
+    };
+    
+    const removeExpense = () => {
+        deleteExpense(expenseId);
+        navigation.goBack();
+    };
 
     return (
         <View style={styles.container}>
@@ -40,7 +66,7 @@ const ManageExpenses = ({route, navigation}) => {
                             name={'trash'} 
                             size={34} 
                             color={colors.error500} 
-                            onPress={() => console.log('remove expense')} 
+                            onPress={removeExpense} 
                         />
                     </View>
                 )
