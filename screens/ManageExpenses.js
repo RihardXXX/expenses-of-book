@@ -5,6 +5,8 @@ import colors from "../constants/colors";
 import Button from "../components/ui/Button";
 import { ExpenseContext } from '../store/expense-context';
 
+import Form from "../components/ui/Form";
+
 
 const ManageExpenses = ({route, navigation}) => {
 
@@ -49,6 +51,7 @@ const ManageExpenses = ({route, navigation}) => {
 
     return (
         <View style={styles.container}>
+            <Form />
             <View style={styles.buttonsSection}>
                 <Button mode={'flat'} onPress={cancelHandler}>
                     cancel
