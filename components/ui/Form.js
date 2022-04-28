@@ -1,12 +1,22 @@
 import { View, Text, StyleSheet } from "react-native";
+import { useState } from "react";
 import Input from "./Input";
 import colors from "../../constants/colors";
+import Button from "./Button";
 
-const Form = () => {
+const Form = ({isEdit, addEditHandler, cancelHandler}) => {
+    const [amount, setAmount] = useState('');
+    const [date, setDate] = useState('');
+    const [description, setDescription] = useState('');
 
-    const amountHandler = () => {
-
-    };
+    const handlerSubmit = () => {
+        const data = {
+            amount: +amount,
+            date: new Date(date),
+            description,
+        };
+        addEditHandler(data);
+    }
 
     return (
         <View style={styles.container}>
@@ -20,7 +30,8 @@ const Form = () => {
                     textInputConfig={{
                         maxLength: 6,
                         keyboardType: 'number-pad',
-                        onChangeText: () => amountHandler() 
+                        onChangeText: e => setAmount(e),
+                        value: amount, 
                     }}
                 />
                 <Input 
@@ -30,7 +41,8 @@ const Form = () => {
                         maxLength: 10,
                         keyboardType: 'default',
                         placeholder: 'YYYY-MM-DD',
-                        onChangeText: () => {}
+                        onChangeText: e => setDate(e),
+                        value: date
                     }}
                 />
             </View>
@@ -39,8 +51,20 @@ const Form = () => {
                 textInputConfig={{
                     multiline: true,
                     maxLength: 300,
+                    onChangeText: e => setDescription(e),
+                    value: description
                 }}
             />
+            <View style={styles.buttonsSection}>
+                <Button mode={'flat'} onPress={cancelHandler}>
+                    cancel
+                </Button>
+                <Button onPress={handlerSubmit}>
+                    {
+                        isEdit ? 'edit' : 'add'
+                    }
+                </Button>
+            </View>
         </View>
     );
 };
@@ -64,4 +88,9 @@ const styles = StyleSheet.create({
     rowInput: {
         flex: 1,
     },
+    buttonsSection: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginVertical: 10,
+    }
 })

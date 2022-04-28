@@ -2,7 +2,6 @@ import { useLayoutEffect, useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import IconButton from "../components/ui/IconButton";
 import colors from "../constants/colors";
-import Button from "../components/ui/Button";
 import { ExpenseContext } from '../store/expense-context';
 
 import Form from "../components/ui/Form";
@@ -25,20 +24,13 @@ const ManageExpenses = ({route, navigation}) => {
 
     const cancelHandler = () => navigation.goBack();
 
-    const addEditHandler = () => {
+    const addEditHandler = (data) => {
         if (isEdit) {
-            updateExpense(expenseId, {
-                id: new Date().toISOString(),
-                description: 'Test1',
-                amount: 1111,
-                date: new Date('2022-06-25')
-              })
+            updateExpense(expenseId, data)
         } else {
             addExpense({
                 id: new Date().toISOString(),
-                description: 'Test',
-                amount: 20.59,
-                date: new Date('2022-06-24')
+                ...data,
               })
         }
         navigation.goBack()
@@ -51,17 +43,11 @@ const ManageExpenses = ({route, navigation}) => {
 
     return (
         <View style={styles.container}>
-            <Form />
-            <View style={styles.buttonsSection}>
-                <Button mode={'flat'} onPress={cancelHandler}>
-                    cancel
-                </Button>
-                <Button onPress={addEditHandler}>
-                    {
-                        isEdit ? 'edit' : 'add'
-                    }
-                </Button>
-            </View>
+            <Form 
+                isEdit={isEdit} 
+                cancelHandler={cancelHandler}
+                addEditHandler={addEditHandler}
+            />
             {
                 isEdit && (
                     <View style={styles.deleteContainer}>
@@ -90,10 +76,5 @@ const styles = StyleSheet.create({
         borderTopColor: colors.gray700,
         borderTopWidth: 2,
         alignItems: 'center'
-    },
-    buttonsSection: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginVertical: 10,
     }
 })
