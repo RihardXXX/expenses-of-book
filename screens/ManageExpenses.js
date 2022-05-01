@@ -12,7 +12,7 @@ const ManageExpenses = ({route, navigation}) => {
     const expenseId = route.params?.expenseId;
     const isEdit = Boolean(expenseId);
 
-    const { addExpense, deleteExpense, updateExpense } = useContext(ExpenseContext);
+    const { addExpense, deleteExpense, updateExpense, expenses } = useContext(ExpenseContext);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -21,6 +21,8 @@ const ManageExpenses = ({route, navigation}) => {
             headerTintColor: colors.primary800
         })
     }, [navigation, isEdit])
+
+    const defaultValues = expenses.find(expense => expense.id === expenseId);
 
     const cancelHandler = () => navigation.goBack();
 
@@ -45,6 +47,7 @@ const ManageExpenses = ({route, navigation}) => {
         <View style={styles.container}>
             <Form 
                 isEdit={isEdit} 
+                defaultValues={defaultValues}
                 cancelHandler={cancelHandler}
                 addEditHandler={addEditHandler}
             />

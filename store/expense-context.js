@@ -47,7 +47,7 @@ const expenseReducer = (state, action) => {
             return [...state, action.payload];
         case 'UPDATE':
             const { id, expense } = action.payload;
-            return state.map(item => item.id === id ? expense : item)
+            return state.map(item => item.id === id ? { id, ...expense} : item)
         case 'DELETE':
             return state.filter(item => item.id !== action.payload);
         default: 

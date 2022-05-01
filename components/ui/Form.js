@@ -1,13 +1,13 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import { useState } from "react";
 import Input from "./Input";
 import colors from "../../constants/colors";
 import Button from "./Button";
 
-const Form = ({isEdit, addEditHandler, cancelHandler}) => {
-    const [amount, setAmount] = useState('');
-    const [date, setDate] = useState('');
-    const [description, setDescription] = useState('');
+const Form = ({isEdit, addEditHandler, cancelHandler, defaultValues}) => {
+    const [amount, setAmount] = useState(() => defaultValues ? defaultValues.amount.toString() : '');
+    const [date, setDate] = useState(() => defaultValues ? defaultValues.date.toISOString().slice(0, 10) : '');
+    const [description, setDescription] = useState(() => defaultValues ? defaultValues.description : '');
 
     const handlerSubmit = () => {
         const data = {
@@ -15,6 +15,16 @@ const Form = ({isEdit, addEditHandler, cancelHandler}) => {
             date: new Date(date),
             description,
         };
+
+        const amountIsValid = !isNaN(data.amount) && data.amount > 0;
+        const dateIsValid = data.date.toString() !== 'Invalid Date';
+        const descriptionIsValid = data.description.trim().length;
+
+        if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
+            Alert.alert('valid error', 'please input correct data');
+            return;
+        }
+
         addEditHandler(data);
     }
 
