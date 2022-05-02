@@ -3,6 +3,8 @@ import colors from "../../constants/colors";
 
 const Input = ({label, textInputConfig, style}) => {
 
+    console.log('isValid: ', textInputConfig.isValid);
+
     const inputStyles = [styles.input];
 
     if (textInputConfig && textInputConfig.multiline) {
@@ -16,7 +18,7 @@ const Input = ({label, textInputConfig, style}) => {
             </Text>
             <TextInput 
                 {...textInputConfig} 
-                style={inputStyles}
+                style={[inputStyles, !textInputConfig.isValid && styles.error]}
             />
         </View>
     );
@@ -45,5 +47,9 @@ const styles = StyleSheet.create({
     multiline: {
         minHeight: 100,
         textAlignVertical: 'top'
+    },
+    error: {
+        borderWidth: 3,
+        borderColor: 'tomato'
     }
 });
